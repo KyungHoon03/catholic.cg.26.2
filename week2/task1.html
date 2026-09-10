@@ -56,7 +56,7 @@ const deg = d => d * Math.PI / 180;
 /* 지구 — 실습 도구에서 놓은 순서 그대로입니다 */
 function earthMatrix(t) {
   let M = M4.identity(M4.create());
-  M = M4.scale(M, M, [1, 1, 1]);   // 크기(균등) 1배
+  M = M4.scale(M, M, [6.371, 6.371, 6.371]);   // 크기(균등) 6.371배
   return M;
 }
 
@@ -64,9 +64,9 @@ function earthMatrix(t) {
 function moonMatrix(t) {
   let M = M4.identity(M4.create());
   M = M4.rotateZ(M, M, deg(t * 13.2));   // 회전 Rz(t*13.2도)
-  M = M4.translate(M, M, [60.3, 0, 0]);   // 이동 T(60.3, 0, 0)
+  M = M4.translate(M, M, [384.4, 0, 0]);   // 이동 T(384.4, 0, 0)
   M = M4.rotateZ(M, M, deg(180));   // 회전 Rz(180도)
-  M = M4.scale(M, M, [0.273, 0.273, 0.273]);   // 크기(균등) 0.273배
+  M = M4.scale(M, M, [1.737, 1.737, 1.737]);   // 크기(균등) 1.737배
   return M;
 }
 
@@ -74,15 +74,15 @@ function moonMatrix(t) {
 function satelliteMatrix(t) {
   let M = M4.identity(M4.create());
   M = M4.rotateZ(M, M, deg(t * 5760));   // 회전 Rz(t*5760도)
-  M = M4.translate(M, M, [1.063, 0, 0]);   // 이동 T(1.063, 0, 0)
+  M = M4.translate(M, M, [6.771, 0, 0]);   // 이동 T(6.771, 0, 0)
   M = M4.rotateZ(M, M, deg(180));   // 회전 Rz(180도)
-  M = M4.scale(M, M, [0.0000171, 0.0000171, 0.0000171]);   // 크기(균등) 0.0000171배
+  M = M4.scale(M, M, [0.000109, 0.000109, 0.000109]);   // 크기(균등) 0.000109배
   return M;
 }
 
 
 /* 축의 표시 범위 — 실습 도구의 「축 범위」 값입니다. */
-const RANGE = { x: 65, y: 65, z: 65 };
+const RANGE = { x: 420, y: 420, z: 420 };
 
 /* 물체 목록 — 색과 모양, 그리고 위에서 정의한 변환 함수를 묶습니다. */
 const OBJECTS = [
@@ -92,7 +92,7 @@ const OBJECTS = [
 ];
 
 /* 시간이 흐르는 속도와 되돌아가는 지점 (실습 도구와 같은 규칙) */
-const T_SPEED = 0.05;
+const T_SPEED = 0.5;
 const T_MAX = 20;
 
 /* ══════════════════════════════════════════════════════════════════════════
