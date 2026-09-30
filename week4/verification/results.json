@@ -1,0 +1,652 @@
+{
+  "date": "2026-09-30T06:34:05.465Z",
+  "method": "Automated browser checks; not student observation times",
+  "checks": [
+    "P1 target matches provided model",
+    "P1 additional click counted",
+    "P1 finite camera",
+    "P2 target matches provided model",
+    "P2 additional click counted",
+    "P2 finite camera",
+    "P3 target matches provided model",
+    "P3 additional click counted",
+    "P3 finite camera",
+    "P4 target matches provided model",
+    "P4 additional click counted",
+    "P4 finite camera",
+    "P5 target matches provided model",
+    "P5 additional click counted",
+    "P5 finite camera",
+    "P6 target matches provided model",
+    "P6 additional click counted",
+    "P6 finite camera",
+    "O1 target matches provided model",
+    "O1 additional click counted",
+    "O1 finite camera",
+    "O2 target matches provided model",
+    "O2 additional click counted",
+    "O2 finite camera",
+    "Orthographic direction remains aligned",
+    "Home key restores distance and target",
+    "Straighten preserves eye",
+    "Straighten preserves target",
+    "Straighten aligns projected world up",
+    "Overview marker visible",
+    "Manual rotation works after point selection",
+    "Manual zoom works after point selection",
+    "WebGL canvas nonblank",
+    "No WebGL errors",
+    "Mobile P1 no page overflow",
+    "Mobile P1 canvas nonblank",
+    "Mobile P3 no page overflow",
+    "Mobile P3 canvas nonblank",
+    "Mobile O1 no page overflow",
+    "Mobile O1 canvas nonblank",
+    "Mobile O2 no page overflow",
+    "Mobile O2 canvas nonblank",
+    "No browser JavaScript or console errors"
+  ],
+  "baseline": [
+    {
+      "id": "P1",
+      "state": {
+        "target": [
+          -1.9621356745336747,
+          1.6315701948846044,
+          4.175347099448992
+        ],
+        "distance": 2.925880833538144,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 3,
+        "camera": {
+          "eye": [
+            -0.4674166313237498,
+            2.877818311968703,
+            6.360171866929398
+          ],
+          "target": [
+            -1.9621356745336747,
+            1.6315701948846044,
+            4.175347099448992
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "P2",
+      "state": {
+        "target": [
+          4.176162110604892,
+          2.2306464149490406,
+          -0.36580803173663157
+        ],
+        "distance": 0.6976867973051785,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 6,
+        "camera": {
+          "eye": [
+            4.532583236911367,
+            2.527818756176819,
+            0.1551712840385554
+          ],
+          "target": [
+            4.176162110604892,
+            2.2306464149490406,
+            -0.36580803173663157
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "P3",
+      "state": {
+        "target": [
+          -2.1642372332924813,
+          4.746832116917375,
+          2.536632494365662
+        ],
+        "distance": 1.3640109120099027,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 9,
+        "camera": {
+          "eye": [
+            -1.4674169588789507,
+            5.327818195123059,
+            3.555171865317771
+          ],
+          "target": [
+            -2.1642372332924813,
+            4.746832116917375,
+            2.536632494365662
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "P4",
+      "state": {
+        "target": [
+          -0.0785776094680708,
+          8.937601317894746,
+          -1.2807049449451409
+        ],
+        "distance": 4.132553520628061,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 12,
+        "camera": {
+          "eye": [
+            2.032583711103345,
+            10.697818953827676,
+            1.8051710009621518
+          ],
+          "target": [
+            -0.0785776094680708,
+            8.937601317894746,
+            -1.2807049449451409
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "P5",
+      "state": {
+        "target": [
+          2.1132620098223027,
+          6.361968689635063,
+          -1.3110538801701763
+        ],
+        "distance": 0.5000000399001142,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 15,
+        "camera": {
+          "eye": [
+            2.3686926386701197,
+            6.574938439163096,
+            -0.9376919652237112
+          ],
+          "target": [
+            2.1132620098223027,
+            6.361968689635063,
+            -1.3110538801701763
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "P6",
+      "state": {
+        "target": [
+          8.663316382789857,
+          -0.5482514728051733,
+          -1.8505214643904764
+        ],
+        "distance": 7.574009078708748,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 18,
+        "camera": {
+          "eye": [
+            12.532583877768728,
+            2.677817902585055,
+            3.8051711511811805
+          ],
+          "target": [
+            8.663316382789857,
+            -0.5482514728051733,
+            -1.8505214643904764
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "O1",
+      "state": {
+        "target": [
+          -5.335668312164901,
+          2.570261252982724,
+          5.947865230111326
+        ],
+        "distance": 7.069818677508837,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 21,
+        "camera": {
+          "eye": [
+            -1.7239721391068326,
+            5.58157603859445,
+            11.227066888347796
+          ],
+          "target": [
+            -5.335668312164901,
+            2.570261252982724,
+            5.947865230111326
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    },
+    {
+      "id": "O2",
+      "state": {
+        "target": [
+          8.498011000919032,
+          2.8306765675178394,
+          -3.6648077471110225
+        ],
+        "distance": 11.50609419517998,
+        "rotation": [
+          -0.208482721937282,
+          0.2883974159064547,
+          0.06449126331248474,
+          0.9323104429901347
+        ],
+        "fov": 45,
+        "actions": 24,
+        "camera": {
+          "eye": [
+            14.376028283565986,
+            7.731576174011803,
+            4.927066291789074
+          ],
+          "target": [
+            8.498011000919032,
+            2.8306765675178394,
+            -3.6648077471110225
+          ],
+          "up": [
+            -0.24050351307142426,
+            0.9047516632199635,
+            -0.3515430103145462
+          ]
+        }
+      },
+      "method": "Home, source-informed right-drag, wheel; no claim of unaided completion"
+    }
+  ],
+  "improved": [
+    {
+      "id": "P1",
+      "state": {
+        "target": [
+          -2,
+          1.6,
+          4.12
+        ],
+        "distance": 6.412754775053533,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            -2,
+            1.6,
+            10.532754775053533
+          ],
+          "target": [
+            -2,
+            1.6,
+            4.12
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "P2",
+      "state": {
+        "target": [
+          3,
+          1.25,
+          -2.085
+        ],
+        "distance": 2.1124368670764584,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            3,
+            1.25,
+            0.027436867076458427
+          ],
+          "target": [
+            3,
+            1.25,
+            -2.085
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "P3",
+      "state": {
+        "target": [
+          -3,
+          4.05,
+          1.315
+        ],
+        "distance": 1.2071067811865475,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            -3,
+            4.05,
+            2.5221067811865474
+          ],
+          "target": [
+            -3,
+            4.05,
+            1.315
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "P4",
+      "state": {
+        "target": [
+          0.5,
+          9.42,
+          -0.435
+        ],
+        "distance": 3.017766952966369,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            0.5,
+            9.42,
+            2.582766952966369
+          ],
+          "target": [
+            0.5,
+            9.42,
+            -0.435
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "P5",
+      "state": {
+        "target": [
+          0,
+          4.6,
+          -4.4
+        ],
+        "distance": 2.6405460838455728,
+        "rotation": [
+          0,
+          1,
+          0,
+          6.123233995736766e-17
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            3.233736309582559e-16,
+            4.6,
+            -7.040546083845573
+          ],
+          "target": [
+            0,
+            4.6,
+            -4.4
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "P6",
+      "state": {
+        "target": [
+          11,
+          1.4,
+          1.565
+        ],
+        "distance": 1.6597718241315031,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": null,
+        "camera": {
+          "eye": [
+            11,
+            1.4,
+            3.224771824131503
+          ],
+          "target": [
+            11,
+            1.4,
+            1.565
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "O1",
+      "state": {
+        "target": [
+          -5.3,
+          2.6,
+          6
+        ],
+        "distance": 12,
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": 3,
+        "camera": {
+          "eye": [
+            -5.3,
+            2.6,
+            18
+          ],
+          "target": [
+            -5.3,
+            2.6,
+            6
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "O2",
+      "state": {
+        "target": [
+          10.8,
+          4.75,
+          -0.3
+        ],
+        "distance": 12,
+        "rotation": [
+          0,
+          0.7071067811865475,
+          0,
+          0.7071067811865476
+        ],
+        "fov": 45,
+        "actions": 1,
+        "halfHeight": 3,
+        "camera": {
+          "eye": [
+            22.8,
+            4.75,
+            -0.2999999999999982
+          ],
+          "target": [
+            10.8,
+            4.75,
+            -0.3
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "resourceWarnings": [
+    {
+      "message": "Failed to load resource: the server responded with a status of 404 (File not found)",
+      "url": "http://127.0.0.1:8000/favicon.ico"
+    }
+  ]
+}

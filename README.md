@@ -11,6 +11,7 @@
 | 주차 | 주제 | 보고서 | 실행 결과 |
 | --- | --- | --- | --- |
 | 2주차 | 지구 · 달 · 인공위성의 변환 설계 | [week2.md](week2/week2.md) | [Task 1](week2/task1.html) · [Task 2](week2/task2.html) · [Task 3](week2/task3.html) |
+| 4주차 | 카메라와 투영 · 관찰 인터페이스 | [week4.md](week4/week4.md) | [기본](week4/baseline/index.html) · [개선](week4/improved/index.html) |
 
 ## Week 2 Preview
 
