@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5주차 실습 1 — 단계별 조명</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0f16; }
+  canvas { display: block; width: 100vw; height: 100vh; touch-action: none; }
+  #hint { position: fixed; left: 12px; bottom: 12px; margin: 0;
+          color: #9fb0c8; font: 12px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+</style>
+</head>
+<body>
+<canvas id="glcanvas"></canvas>
+<p id="hint">드래그 = 시점 회전 · 휠 = 확대/축소 · 1 = point · 2 = directional · 3 = spot<br><span id="light-kind">현재 광원: point</span></p>
+
+<script>
+/* ============================================================================
+   5주차 실습 1 — 출발점 파일
+
+   3주차·4주차에서 만든 것이 이미 들어 있습니다.
+     · 바닥 + 행성 + 달이 있는 3차원 장면
+     · 모델 / 뷰 / 투영 행렬
+     · 마우스로 도는 카메라
+
+   실습 1의 확산광, 환경광, 정반사, 거리 감쇠와 법선 행렬을 적용했습니다.
+   숫자 키로 광원의 종류를 바꾸어 바닥의 밝기 분포를 비교합니다.
+   ★ 단계 N은 수업의 실습 순서이며, 아래 1~7번 큰 구역은 프로그램 구조입니다.
+   원문에서 수정 전 상태를 설명한 주석은 비교용 주석 안에 보존했습니다.
+   ============================================================================ */
+'use strict';
+
+/* ══════════════════════════════════════════════════════════════════════════
+   1. 메시 만들기 — 위치 · 법선 · 인덱스
+   ══════════════════════════════════════════════════════════════════════════ */
+
+// 구: 위도 seg 단계 × 경도 seg*2 단계로 잘라 삼각형을 만든다.
+// 구의 법선은 중심에서 표면으로 향하는 방향과 같으므로 위치를 정규화하면 끝난다.
+function makeSphere(seg) {
+  const positions = [], normals = [], indices = [];
+  for (let i = 0; i <= seg; i++) {
+    const phi = Math.PI * i / seg;                 // 0(북극) ~ π(남극)
+    for (let j = 0; j <= seg * 2; j++) {
+      const th = 2 * Math.PI * j / (seg * 2);
+      const x = Math.sin(phi) * Math.cos(th);
+      const y = Math.cos(phi);
+      const z = Math.sin(phi) * Math.sin(th);
+      positions.push(x, y, z);
+      normals.push(x, y, z);                       // 반지름 1 이므로 위치 = 법선
+    }
+  }
+  const W = seg * 2 + 1;
+  for (let i = 0; i < seg; i++) {
+    for (let j = 0; j < seg * 2; j++) {
+      const a = i * W + j, b = a + W;
+      indices.push(a, b, a + 1, a + 1, b, b + 1);
+    }
+  }
+  return { positions: new Float32Array(positions),
+           normals:   new Float32Array(normals),
+           indices:   new Uint16Array(indices) };
+}
+
+// 바닥: y = 0 평면. 법선은 전부 위쪽 (0,1,0).
+function makePlane(size) {
+  const s = size / 2;
+  return {
+    positions: new Float32Array([-s,0,-s,  s,0,-s,  s,0,s,  -s,0,s]),
+    normals:   new Float32Array([ 0,1,0,   0,1,0,   0,1,0,   0,1,0 ]),
+    indices:   new Uint16Array([0, 1, 2, 0, 2, 3]),
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   2. 버텍스 셰이더
+   ══════════════════════════════════════════════════════════════════════════ */
+const VS_SOURCE = `#version 300 es
+
+layout(location=0) in vec3 aPos;
+layout(location=1) in vec3 aNormal;
+
+uniform mat4 uModel, uView, uProj;
+uniform mat3 uNormalMat;              // 모델 행렬의 역전치 3×3
+
+out vec3 vWorldPos;                   // 이 픽셀이 세계 어디에 있는가
+out vec3 vNormal;                     // 이 픽셀의 표면이 어디를 향하는가
+
+void main() {
+  vec4 world = uModel * vec4(aPos, 1.0);
+  // 위치는 w=1인 점이므로 모델 행렬의 이동·회전·스케일을 모두 적용한다.
+  vWorldPos  = world.xyz;
+  // 광원·카메라와 같은 월드 좌표로 표면 위치를 전달해야 방향 계산이 맞는다.
+
+  // ★ 단계 5 — 아래 한 줄을  vNormal = uNormalMat * aNormal;  로 바꾼다
+  // 수업 원문 비교:
+  // 바꾸기 전
+  // vNormal = mat3(uModel) * aNormal;
+  // 바꾼 뒤
+  // 축마다 다르게 늘이면 모델 행렬만으로 변환한 법선은 표면과 수직이 아니게 된다.
+  // 역전치 3×3을 사용하면 변환된 접선과 법선의 수직 관계가 유지된다.
+  // 법선은 방향 벡터이므로 위치 이동을 적용하지 않는다.
+  vNormal = uNormalMat * aNormal;
+
+  // 정점에는 오른쪽부터 모델 → 뷰 → 투영 변환을 적용한다.
+  gl_Position = uProj * uView * world;
+}
+`;
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. 프래그먼트 셰이더 — 여기가 이번 주의 주무대입니다
+   ══════════════════════════════════════════════════════════════════════════ */
+const FS_SOURCE = `#version 300 es
+precision highp float;
+
+in vec3 vWorldPos;
+in vec3 vNormal;
+
+uniform vec3  uBaseColor;             // 물체 자체의 색 (반사 특성)
+uniform vec3  uLightPos;              // 광원의 세계 좌표
+uniform vec3  uLightColor;            // 들어오는 빛의 RGB 색과 세기
+uniform vec3  uViewPos;               // 카메라의 세계 좌표
+uniform float uShininess;            // 정반사 거듭제곱의 지수: 클수록 하이라이트가 좁다
+uniform bool  uEmissive;              // 태양처럼 스스로 빛나는 물체인가
+uniform int   uLightType;             // 0 = point, 1 = directional, 2 = spot
+uniform float uCosInner, uCosOuter;   // spot 원뿔의 안쪽·바깥쪽 각도의 cos
+
+out vec4 fragColor;
+
+void main() {
+  if (uEmissive) {                    // 광원 자신은 조명 계산을 하지 않는다
+    // 표시용 광원 구는 다른 빛을 받지 않아도 밝아야 하므로 물체색을 바로 출력한다.
+    fragColor = vec4(uBaseColor, 1.0);
+    return;
+  }
+
+  vec3 N = normalize(vNormal);                    // 표면이 향하는 방향
+  // 보간된 법선은 반드시 다시 정규화
+  // 정점 사이에서 보간된 법선은 길이가 1이 아닐 수 있다. 단위벡터여야 내적이 cos가 된다.
+  // point
+  vec3 L = normalize(uLightPos - vWorldPos);      // 광원 쪽 방향
+  // 광원 위치 - 표면 위치로 표면에서 광원으로 향하는 벡터를 만든다.
+  vec3 V = normalize(uViewPos  - vWorldPos);      // 눈 쪽 방향
+  // 정반사는 보는 방향에 따라 달라지므로 표면에서 카메라로 향하는 방향도 필요하다.
+
+  // ──────────────────────────────────────────────────────────────────────
+  // 수업 시작 파일의 단계별 안내 원문 (완성 전 출력식의 기록)
+  //  ★ 단계 1~4 — 아래에 세 항을 하나씩 더해 갑니다.
+  //
+  //   단계 1 (확산광)  vec3 diffuse = max(dot(N, L), 0.0) * uBaseColor * uLightColor;
+  //   단계 2 (환경광)  vec3 ambient = 0.08 * uBaseColor;
+  //   단계 3 (정반사)  vec3 R = reflect(-L, N);
+  //                    vec3 specular = pow(max(dot(R, V), 0.0), uShininess) * uLightColor * 0.5;
+  //   단계 4 (감쇠)    float d = length(uLightPos - vWorldPos);
+  //                    float att = 1.0 / (1.0 + 0.02 * d * d);
+  //
+  //  그리고 아래 한 줄을  fragColor = vec4(ambient + (diffuse + specular) * att, 1.0);
+  //  처럼 바꿉니다.
+  // 0단계의 출력식:
+  // fragColor = vec4(uBaseColor, 1.0);      // 모든 픽셀이 똑같은 색
+  // 구의 모든 픽셀이 같은 색이면 표면 방향에 따른 명암이 없어 납작한 원처럼 보인다.
+  // 1단계: fragColor = vec4(diffuse, 1.0);
+  // 2단계: fragColor = vec4(ambient + diffuse, 1.0);
+  // 3단계: fragColor = vec4(ambient + diffuse + specular, 1.0);
+  // 아래 최종 계산은 광원 종류가 L과 att를 결정한 다음 세 조명 항을 합친다.
+  // ──────────────────────────────────────────────────────────────────────
+
+  // ★ 단계 4 — 거리 감쇠를 넣습니다.
+  // d는 광원에서 현재 표면점까지의 거리다. 멀어질수록 같은 빛이 넓게 퍼진다.
+  float d = length(uLightPos - vWorldPos);
+  // 0.02는 거리 제곱 감쇠 계수다. 거리 5이면 2/3, 거리 10이면 1/3이 된다.
+  // 분모의 1은 거리가 0에 가까워도 계산이 무한대로 커지는 것을 막는다.
+  float att = 1.0 / (1.0 + 0.02 * d * d);
+
+  // ★ 단계 6 — 광원의 종류를 바꿔 봅니다.
+  // point는 표면마다 L과 거리가 다르다. directional은 방향만 있고 위치는 없다.
+  if (uLightType == 1) {
+    // directional — 방향 하나로 고정
+    // 이 값은 표면에서 광원 쪽을 향한다. 빛의 진행 방향을 저장했다면 반대로 해야 한다.
+    L = normalize(vec3(0.4, 0.8, 0.5));
+    att = 1.0;                      // 감쇠 없음
+  } else if (uLightType == 2) {
+    // point 와 똑같이 L, dist, att 를 구한 뒤 —
+    // 이 파일에서는 위에서 구한 거리 d를 사용한다. spot은 point에 원뿔 범위를 더한다.
+    vec3 spotDir = vec3(0.0, -1.0, 0.0);
+    // L은 광원 쪽이므로 -L이 광원에서 표면으로 향한다. spotDir은 이미 길이 1이다.
+    float c = dot(-L, spotDir);       // 원뿔 축과 이루는 각의 cos
+    // 작은 각의 cos가 더 크다. 안쪽 원뿔에서는 1, 바깥에서는 0으로 제한한다.
+    // 두 cos 사이에서는 선형으로 줄어 경계가 부드럽다. acos로 각도를 구할 필요가 없다.
+    att *= clamp((c - uCosOuter) / (uCosInner - uCosOuter), 0.0, 1.0);
+  }
+
+  // ★ 단계 1 — 확산 반사를 넣습니다.
+  // N과 L이 단위벡터이므로 dot(N,L)은 두 방향 사이 각도의 cos다.
+  // 정면은 1, 스치는 면은 0, 빛을 등진 면은 음수다.
+  // max는 내적과 0 중 큰 값을 골라, 등진 면을 빛을 받지 않는 밝기 0으로 처리한다.
+  // 1단계에서 max를 없애도 음수 출력이 검정으로 제한되어 화면은 같을 수 있다.
+  // 그러나 음수 확산광을 그대로 더하면 환경광을 빼 버리므로 max가 필요하다.
+  float lambert = max(dot(N, L), 0.0);          // ← 이 한 줄이 밤낮 경계를 만든다
+  // 물체가 되돌려 보내는 색과 들어오는 빛의 색을 RGB 채널별로 곱한다.
+  // 시선 V를 쓰지 않으므로 같은 표면점의 확산광은 카메라만 움직여도 바뀌지 않는다.
+  vec3 diffuse = lambert * uBaseColor * uLightColor;
+
+  // ★ 단계 2 — 환경광을 넣습니다.
+  // 주변에서 튕겨 돌아오는 간접광을 균일한 상수로 근사한다.
+  // 0.08은 물체색의 8%다. 0이면 밤면이 검고 0.4처럼 크면 명암 대비가 줄어든다.
+  vec3 ambient = 0.08 * uBaseColor;    // N 도 L 도 V 도 쓰지 않는다
+
+  // ★ 단계 3 — 정반사를 넣습니다.
+  // reflect는 표면으로 들어오는 방향을 받으므로, 광원 쪽 방향 L 대신 -L을 넣는다.
+  vec3 R = reflect(-L, N);                     // L 이 N 에 대해 반사된 방향
+  // 반사 방향 R과 눈 방향 V가 가까울수록 dot(R,V)가 1에 가까워져 밝게 반짝인다.
+  // 지수 uShininess가 클수록 1보다 작은 값이 빨리 줄어 하이라이트가 좁아진다.
+  // 수업의 전체 Phong 코드·주의사항대로 등진 면에서는 정반사도 0으로 만든다.
+  float spec = (lambert > 0.0) ? pow(max(dot(R, V), 0.0), uShininess) : 0.0;
+  // 0.5는 정반사 세기다. 물체색을 곱하지 않으므로 하이라이트는 광원색을 띤다.
+  vec3 specular = spec * uLightColor * 0.5;
+  // 단계 4의 최종 출력: 특정 광원의 직접광인 diffuse와 specular에만 att를 곱한다.
+  // ambient는 특정 광원에서 오는 빛이 아니므로 거리 감쇠나 spot 원뿔 제한을 받지 않는다.
+  fragColor = vec4(ambient + (diffuse + specular) * att, 1.0);
+}
+`;
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. 4×4 행렬 도구 (열 우선)
+   ══════════════════════════════════════════════════════════════════════════ */
+const Mat4 = {
+  identity: function () {
+    return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+  },
+  multiply: function (a, b) {                     // a * b
+    const o = new Float32Array(16);
+    for (let c = 0; c < 4; c++) {
+      for (let r = 0; r < 4; r++) {
+        let s = 0;
+        for (let k = 0; k < 4; k++) s += a[k * 4 + r] * b[c * 4 + k];
+        o[c * 4 + r] = s;
+      }
+    }
+    return o;
+  },
+  translate: function (x, y, z) {
+    const m = Mat4.identity(); m[12] = x; m[13] = y; m[14] = z; return m;
+  },
+  scale: function (x, y, z) {
+    const m = Mat4.identity(); m[0] = x; m[5] = y; m[10] = z; return m;
+  },
+  rotateY: function (r) {
+    const m = Mat4.identity(), c = Math.cos(r), s = Math.sin(r);
+    m[0] = c; m[2] = -s; m[8] = s; m[10] = c; return m;
+  },
+  perspective: function (fovy, aspect, near, far) {
+    const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
+    return new Float32Array([f / aspect,0,0,0, 0,f,0,0,
+                             0,0,(far + near) * nf,-1, 0,0,2 * far * near * nf,0]);
+  },
+  lookAt: function (eye, center, up) {
+    let zx = eye[0]-center[0], zy = eye[1]-center[1], zz = eye[2]-center[2];
+    const zl = Math.hypot(zx, zy, zz) || 1; zx/=zl; zy/=zl; zz/=zl;
+    let xx = up[1]*zz - up[2]*zy, xy = up[2]*zx - up[0]*zz, xz = up[0]*zy - up[1]*zx;
+    const xl = Math.hypot(xx, xy, xz) || 1; xx/=xl; xy/=xl; xz/=xl;
+    const yx = zy*xz - zz*xy, yy = zz*xx - zx*xz, yz = zx*xy - zy*xx;
+    return new Float32Array([
+      xx,yx,zx,0, xy,yy,zy,0, xz,yz,zz,0,
+      -(xx*eye[0]+xy*eye[1]+xz*eye[2]),
+      -(yx*eye[0]+yy*eye[1]+yz*eye[2]),
+      -(zx*eye[0]+zy*eye[1]+zz*eye[2]), 1]);
+  },
+  // 법선 행렬 = transpose(inverse(model)) 의 좌상단 3×3
+  // ★ 단계 5 보완: 원본 함수의 반환 배열은 역행렬 배치였다. 행·열을 바꾸어 역전치로 고쳤다.
+  normalFromMat4: function (m) {
+    // 모델 행렬에서 이동 성분을 제외한 회전·스케일 3×3을 꺼낸다.
+    const a00=m[0],a01=m[1],a02=m[2], a10=m[4],a11=m[5],a12=m[6],
+          a20=m[8],a21=m[9],a22=m[10];
+    const b01 =  a22*a11 - a12*a21, b11 = -a22*a10 + a12*a20, b21 = a21*a10 - a11*a20;
+    // 여인수와 행렬식으로 역행렬을 구한다. 행렬식이 0이면 역행렬을 만들 수 없다.
+    let det = a00*b01 + a01*b11 + a02*b21;
+    if (!det) return new Float32Array([1,0,0, 0,1,0, 0,0,1]);
+    det = 1 / det;
+    // 열 우선 배열에 역행렬의 행·열을 바꾼 순서로 넣어 역전치 3×3을 반환한다.
+    return new Float32Array([
+      b01*det, b11*det, b21*det,
+      (-a22*a01 + a02*a21)*det, (a22*a00 - a02*a20)*det, (-a21*a00 + a01*a20)*det,
+      (a12*a01 - a02*a11)*det, (-a12*a00 + a02*a10)*det, (a11*a00 - a01*a10)*det]);
+  },
+};
+
+/* ══════════════════════════════════════════════════════════════════════════
+   5. WebGL 준비
+   ══════════════════════════════════════════════════════════════════════════ */
+const canvas = document.getElementById('glcanvas');
+const gl = canvas.getContext('webgl2');
+if (!gl) {
+  document.body.innerHTML =
+    '<p style="color:#fff;font:16px sans-serif;padding:2rem">' +
+    'WebGL2 를 사용할 수 없습니다. 최신 Chrome 또는 Edge 로 열어 주세요.</p>';
+  throw new Error('no webgl2');
+}
+
+function compileShader(type, source) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, source);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    const kind = (type === gl.VERTEX_SHADER) ? '버텍스' : '프래그먼트';
+    throw new Error(kind + ' 셰이더 오류\n' + gl.getShaderInfoLog(s));
+  }
+  return s;
+}
+function createProgram(vsSource, fsSource) {
+  const p = gl.createProgram();
+  gl.attachShader(p, compileShader(gl.VERTEX_SHADER, vsSource));
+  gl.attachShader(p, compileShader(gl.FRAGMENT_SHADER, fsSource));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    throw new Error('링크 오류\n' + gl.getProgramInfoLog(p));
+  }
+  return p;
+}
+const program = createProgram(VS_SOURCE, FS_SOURCE);
+
+// uniform 의 위치를 이름으로 한 번만 찾아 둔다
+const U = {};
+['uModel','uView','uProj','uNormalMat','uBaseColor','uLightPos','uLightColor',
+ 'uViewPos','uShininess','uEmissive','uLightType','uCosInner','uCosOuter'].forEach(function (n) {
+  U[n] = gl.getUniformLocation(program, n);
+});
+
+function createMesh(mesh) {
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  function attribute(data, location, size) {
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(location);
+    gl.vertexAttribPointer(location, size, gl.FLOAT, false, 0, 0);
+  }
+  attribute(mesh.positions, 0, 3);      // location 0 ← aPos
+  attribute(mesh.normals,   1, 3);      // location 1 ← aNormal
+  const ibo = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, mesh.indices, gl.STATIC_DRAW);
+  gl.bindVertexArray(null);
+  return { vao: vao, count: mesh.indices.length };
+}
+
+const sphere = createMesh(makeSphere(32));
+const plane  = createMesh(makePlane(16));
+
+gl.enable(gl.DEPTH_TEST);
+
+/* ══════════════════════════════════════════════════════════════════════════
+   6. 마우스로 도는 카메라
+   ══════════════════════════════════════════════════════════════════════════ */
+const cam = { yaw: 0.6, pitch: 0.42, dist: 11 };
+let lightType = 0;
+// ★ 단계 6 — 1·2·3을 셰이더의 종류 값 0·1·2로 바꾼다. 동시에 여러 광원을 켜는 기능은 아니다.
+window.addEventListener('keydown', function (e) {
+  if (!['1', '2', '3'].includes(e.key)) return;
+  lightType = Number(e.key) - 1;
+  document.getElementById('light-kind').textContent =
+    '현재 광원: ' + ['point', 'directional', 'spot'][lightType];
+});
+let dragging = false, lastX = 0, lastY = 0;
+
+canvas.addEventListener('pointerdown', function (e) {
+  dragging = true; lastX = e.clientX; lastY = e.clientY;
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove', function (e) {
+  if (!dragging) return;
+  cam.yaw   += (e.clientX - lastX) * 0.008;
+  cam.pitch += (e.clientY - lastY) * 0.006;
+  cam.pitch  = Math.max(-1.3, Math.min(1.4, cam.pitch));
+  lastX = e.clientX; lastY = e.clientY;
+});
+canvas.addEventListener('pointerup', function (e) {
+  dragging = false; canvas.releasePointerCapture(e.pointerId);
+});
+canvas.addEventListener('wheel', function (e) {
+  e.preventDefault();
+  cam.dist = Math.max(3, Math.min(40, cam.dist * (1 + e.deltaY * 0.001)));
+}, { passive: false });
+
+/* ══════════════════════════════════════════════════════════════════════════
+   7. 매 프레임 그린다
+   ══════════════════════════════════════════════════════════════════════════ */
+const startTime = performance.now();
+
+// 물체 하나를 그리는 함수. 모델 행렬과 재질만 바꿔 여러 번 부른다.
+function draw(mesh, model, color, shininess, emissive) {
+  gl.uniformMatrix4fv(U.uModel, false, model);
+  // ★ 단계 5 — 물체마다 모델 행렬이 다르므로 법선 행렬도 물체를 그릴 때마다 갱신한다.
+  gl.uniformMatrix3fv(U.uNormalMat, false, Mat4.normalFromMat4(model));
+  gl.uniform3fv(U.uBaseColor, color);
+  gl.uniform1f(U.uShininess, shininess);
+  gl.uniform1i(U.uEmissive, emissive ? 1 : 0);
+  gl.bindVertexArray(mesh.vao);
+  gl.drawElements(gl.TRIANGLES, mesh.count, gl.UNSIGNED_SHORT, 0);
+}
+
+function render() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.floor(canvas.clientWidth * dpr);
+  const h = Math.floor(canvas.clientHeight * dpr);
+  if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+  gl.viewport(0, 0, canvas.width, canvas.height);
+
+  gl.clearColor(0.04, 0.06, 0.10, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  const t = (performance.now() - startTime) / 1000;
+
+  // 카메라
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  const eye = [Math.sin(cam.yaw) * cp * cam.dist,
+               sp * cam.dist + 1.0,
+               Math.cos(cam.yaw) * cp * cam.dist];
+  const view = Mat4.lookAt(eye, [0, 1.0, 0], [0, 1, 0]);
+  const proj = Mat4.perspective(Math.PI / 4, canvas.width / canvas.height, 0.1, 200);
+
+  // 광원 — 장면 위를 천천히 돈다
+  // ★ 단계 6 — point는 제공된 원운동을 유지하고, spot은 높이 6에서 아래로 고정해 비춘다.
+  const lightPos = lightType === 2 ? [0, 6, 0] :
+    [Math.cos(t * 0.4) * 5.0, 3.6, Math.sin(t * 0.4) * 5.0];
+
+  gl.useProgram(program);                       // ← uniform 을 넣기 전에 반드시 먼저!
+  gl.uniformMatrix4fv(U.uView, false, view);
+  gl.uniformMatrix4fv(U.uProj, false, proj);
+  gl.uniform3fv(U.uLightPos, lightPos);
+  gl.uniform3f(U.uLightColor, 1.0, 0.97, 0.90);
+  // ★ 단계 3 — 카메라가 움직이면 V도 달라져야 하므로 매 프레임 eye를 전달한다.
+  gl.uniform3fv(U.uViewPos, eye);
+  gl.uniform1i(U.uLightType, lightType);
+  // ★ 단계 6 — JS의 삼각함수는 라디안이므로 도에 PI/180을 곱한 뒤 cos를 보낸다.
+  // 안쪽 16도까지 최대, 바깥 28도에서 0이다. cos(16도)가 cos(28도)보다 크다.
+  gl.uniform1f(U.uCosInner, Math.cos(16 * Math.PI / 180));
+  gl.uniform1f(U.uCosOuter, Math.cos(28 * Math.PI / 180));
+
+  // 바닥
+  draw(plane, Mat4.identity(), [0.32, 0.34, 0.40], 8, false);
+
+  // 행성 — 가운데에 떠서 돈다
+  let m = Mat4.multiply(Mat4.translate(0, 1.6, 0), Mat4.rotateY(t * 0.3));
+  // ★ 단계 5 — 수업의 비교 코드 원문. 두 줄을 동시에 실행하지 않고 하나씩 비교한다.
+  // m = Mat4.multiply(m, Mat4.scale(1.3, 1.3, 1.3));     // 원래
+  // m = Mat4.multiply(m, Mat4.scale(0.7, 2.2, 0.7));     // 길게 늘인다
+  // 비균등 스케일 비교 캡처 후, 최종 실행은 원래의 균등 스케일을 사용한다.
+  m = Mat4.multiply(m, Mat4.scale(1.3, 1.3, 1.3));     // 원래
+  // ★ 단계 3 — 행성 shininess 32는 달의 16보다 하이라이트가 좁다.
+  draw(sphere, m, [0.80, 0.42, 0.32], 32, false);
+
+  // 달 — 행성 둘레를 돈다
+  let mm = Mat4.multiply(Mat4.translate(0, 1.6, 0), Mat4.rotateY(t * 0.9));
+  mm = Mat4.multiply(mm, Mat4.translate(2.8, 0, 0));
+  mm = Mat4.multiply(mm, Mat4.scale(0.42, 0.42, 0.42));
+  // ★ 단계 3 — 달 shininess 16은 행성의 32보다 하이라이트가 넓다.
+  draw(sphere, mm, [0.72, 0.72, 0.76], 16, false);
+
+  // 광원 위치 표시 — 스스로 빛나는 물체
+  let ml = Mat4.multiply(Mat4.translate(lightPos[0], lightPos[1], lightPos[2]),
+                         Mat4.scale(0.22, 0.22, 0.22));
+  // directional은 위치가 없으므로 point와 spot만 위치를 표시한다.
+  if (lightType !== 1) draw(sphere, ml, [1.0, 0.93, 0.62], 1, true);
+
+  gl.bindVertexArray(null);
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

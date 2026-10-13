@@ -1,0 +1,288 @@
+{
+  "date": "2026-10-08",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "fixedTime": 2,
+  "cases": [
+    {
+      "name": "stage0",
+      "file": "images/task1-stage0.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 280998849,
+      "fixedTime": 2
+    },
+    {
+      "name": "stage2",
+      "file": "images/task1-stage2.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 198238915,
+      "fixedTime": 2
+    },
+    {
+      "name": "stage3",
+      "file": "images/task1-stage3.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 198810698,
+      "fixedTime": 2
+    },
+    {
+      "name": "stage4",
+      "file": "images/task1-stage4.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 144295501,
+      "fixedTime": 2
+    },
+    {
+      "name": "ambient0",
+      "file": "images/task1-ambient0.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 124493619,
+      "fixedTime": 2
+    },
+    {
+      "name": "ambient04",
+      "file": "images/task1-ambient04.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 223461467,
+      "fixedTime": 2
+    },
+    {
+      "name": "normal-model",
+      "file": "images/task1-normal-model.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 140069371,
+      "fixedTime": 2
+    },
+    {
+      "name": "normal-correct",
+      "file": "images/task1-normal-correct.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 143842104,
+      "fixedTime": 2
+    },
+    {
+      "name": "stage4",
+      "file": "images/task1-point.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 144295501,
+      "fixedTime": 2
+    },
+    {
+      "name": "stage4",
+      "file": "images/task1-directional.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 1,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 230704811,
+      "fixedTime": 2
+    },
+    {
+      "name": "point-overhead",
+      "file": "images/task1-point-overhead.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 149513685,
+      "fixedTime": 2
+    },
+    {
+      "name": "spot",
+      "file": "images/task1-spot.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 2,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 67390361,
+      "fixedTime": 2
+    },
+    {
+      "name": "far-light",
+      "file": "images/task1-far-light.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 142576020,
+      "fixedTime": 0
+    },
+    {
+      "name": "near-light",
+      "file": "images/task1-near-light.png",
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 158393226,
+      "fixedTime": 0
+    },
+    {
+      "name": "stage1",
+      "file": "images/task1-stage1.png",
+      "fixedTime": 2,
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 178436090
+    },
+    {
+      "name": "max-removed",
+      "file": "images/task1-max-removed.png",
+      "fixedTime": 2,
+      "linked": true,
+      "webglError": 0,
+      "lightType": 0,
+      "cam": {
+        "yaw": 0.6,
+        "pitch": 0.42,
+        "dist": 11
+      },
+      "pixelSum": 178436090
+    }
+  ],
+  "errors": [],
+  "camera": {
+    "before": {
+      "yaw": 0.6,
+      "pitch": 0.42,
+      "dist": 11
+    },
+    "after": {
+      "yaw": 1.4800000000000004,
+      "pitch": 0.2999999999999999,
+      "dist": 11
+    },
+    "zoom": 9.24
+  },
+  "normalMatrix": {
+    "dot": -3.195708586645196e-8,
+    "matrix": [
+      1.1790509223937988,
+      0,
+      -0.8066320419311523,
+      0,
+      0.45454543828964233,
+      0,
+      0.8066320419311523,
+      0,
+      1.1790509223937988
+    ]
+  },
+  "animation": {
+    "before": [
+      4.972921848297119,
+      3.5999999046325684,
+      0.5196598768234253
+    ],
+    "after": [
+      4.764223575592041,
+      3.5999999046325684,
+      1.5172914266586304
+    ],
+    "changed": true
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "error": 0
+  },
+  "task1SHA256": "64E5B4532D64157FDA3389E5DAB85BF43927B2658597FEED2E082DEAA95328AE",
+  "originalSHA256": "20F844D76616561793AF42BA4FE092494B25CD14AF9C9D6DCBD7A47E6749826C",
+  "maxComparison": {
+    "pixelSumWithMax": 178436090,
+    "pixelSumWithoutMax": 178436090,
+    "screenshotBytesEqual": true
+  }
+}

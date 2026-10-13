@@ -12,6 +12,7 @@
 | --- | --- | --- | --- |
 | 2주차 | 지구 · 달 · 인공위성의 변환 설계 | [week2.md](week2/week2.md) | [Task 1](week2/task1.html) · [Task 2](week2/task2.html) · [Task 3](week2/task3.html) |
 | 4주차 | 카메라와 투영 · 관찰 인터페이스 | [week4.md](week4/week4.md) | [기본](week4/baseline/index.html) · [개선](week4/improved/index.html) |
+| 5주차 | 빛과 색 · 단계별 조명과 새벽의 두 행성 | [week5.md](week5/week5.md) | [Task 1](week5/task1.html) · [Task 2](week5/task2.html) |
 
 ## Week 2 Preview
 
