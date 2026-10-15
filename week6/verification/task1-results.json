@@ -1,0 +1,581 @@
+{
+  "date": "2026-10-15",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "task1SHA256": "720840cdd5bfcf55f52cbb6b61ab7d2ee811252f62e53657ca6d020b5457c728",
+  "cases": [
+    {
+      "name": "stage2",
+      "stage": 2,
+      "hash": 659873997,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": null,
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": null,
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "stage3",
+      "stage": 3,
+      "hash": 2459145596,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": null,
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": null,
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "stage4",
+      "stage": 4,
+      "hash": 1040597372,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": null,
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "stage5",
+      "stage": 5,
+      "hash": 4074616093,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "normal0",
+      "stage": 5,
+      "hash": 2019214330,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "normal5",
+      "stage": 5,
+      "hash": 4074616093,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "rough015",
+      "stage": 5,
+      "hash": 3289297991,
+      "uniforms": {
+        "uRough": [
+          0.15000000596046448
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "rough1",
+      "stage": 5,
+      "hash": 1383826523,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "metal0",
+      "stage": 5,
+      "hash": 394158162,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          0
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "metal1",
+      "stage": 5,
+      "hash": 1383826523,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "all-off",
+      "stage": 5,
+      "hash": 2765879463,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          0
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "environment-only",
+      "stage": 5,
+      "hash": 831468671,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          0
+        ],
+        "uAmbient": [
+          0
+        ],
+        "uEnvPower": [
+          2
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "ambient-only",
+      "stage": 5,
+      "hash": 3681453406,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          0
+        ],
+        "uPower": [
+          0
+        ],
+        "uAmbient": [
+          0.5
+        ],
+        "uEnvPower": [
+          0
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "wood_planks",
+      "stage": 5,
+      "hash": 3679700398,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "rock_boulder_dry",
+      "stage": 5,
+      "hash": 2997670789,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "rusty_metal_04",
+      "stage": 5,
+      "hash": 4074616093,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          2.065717935562134,
+          0.5529211163520813,
+          3.01945161819458
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    },
+    {
+      "name": "camera-moved",
+      "stage": 5,
+      "hash": 3406278550,
+      "uniforms": {
+        "uRough": [
+          1
+        ],
+        "uMetal": [
+          1
+        ],
+        "uNormalStrength": [
+          5
+        ],
+        "uPower": [
+          4
+        ],
+        "uAmbient": [
+          0.15000000596046448
+        ],
+        "uEnvPower": [
+          1.5
+        ],
+        "uEye": [
+          0.293601930141449,
+          1.2819284200668335,
+          3.0065581798553467
+        ]
+      },
+      "links": [
+        true
+      ],
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "failedResponses": []
+}

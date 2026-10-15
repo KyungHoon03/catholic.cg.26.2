@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>텍스처 필터링과 밉맵</title>
+<link rel="stylesheet" href="../demo.css">
+<style>.wrap{height:100vh;height:100dvh}.stage{position:relative;min-height:320px}.stage canvas{position:absolute;inset:0;max-width:none;max-height:none}@media(max-width:700px){.wrap{display:block;height:auto}.stage{height:75vh;height:75dvh}.panel{max-height:none}}</style></head>
+<body>
+<div class="wrap">
+  <div class="stage"><canvas id="cv"></canvas></div>
+  <div class="panel">
+    <h1>필터링과 밉맵</h1>
+    <p class="sub">멀리 뻗은 평면에 체크무늬를 입혔습니다. 지평선 근처를 보면서 설정을 바꿔 보세요.</p>
+    <div id="ui"></div>
+    <div class="note">
+      <b>축소 필터를 NEAREST 로 바꿔 보세요.</b> 지평선 근처가 지글거리고 무늬가 깨집니다(aliasing).
+      한 픽셀 안에 텍셀이 수십 개 들어가는데 그중 하나만 뽑아 쓰기 때문입니다.
+      <br><br>
+      <b>LINEAR_MIPMAP_LINEAR</b> 로 바꾸면 줄어듭니다. 밉맵은 절반씩 줄인 이미지를 미리 만들어 두고
+      거리에 맞는 것을 골라 씁니다. 메모리를 33% 더 쓰는 대신 지글거림을 줄입니다.
+      <br><br>
+      <b>확대 필터</b>는 반대로 가까운 곳에 영향을 줍니다. NEAREST 면 텍셀 경계가 또렷해집니다.
+    </div>
+  </div>
+</div>
+
+<script src="../demo.js"></script>
+<script>
+(function () {
+  const cv = document.getElementById('cv');
+  const gl = D.context(cv);
+  if (!gl) return;
+
+  const VS = `#version 300 es
+  layout(location=0) in vec3 aPos;
+  layout(location=2) in vec2 aUV;
+  uniform mat4 uVP;
+  uniform float uRepeat;
+  out vec2 vUV;
+  void main(){ vUV = aUV * uRepeat; gl_Position = uVP * vec4(aPos, 1.0); }`;
+
+  const FS = `#version 300 es
+  precision highp float;
+  in vec2 vUV;
+  uniform sampler2D uTex;
+  uniform float uFog;
+  out vec4 outColor;
+  void main(){
+    vec4 c = texture(uTex, vUV);
+    // 거리가 멀수록 살짝 어둡게 (지평선을 눈으로 구분하기 쉽게)
+    float d = clamp(gl_FragCoord.z, 0.0, 1.0);
+    outColor = mix(c, vec4(0.05, 0.06, 0.09, 1.0), pow(d, 40.0) * uFog);
+  }`;
+
+  const prog = D.program(gl, VS, FS);
+  const U = D.uniforms(gl, prog, ['uVP', 'uRepeat', 'uTex', 'uFog']);
+
+  // 커다란 평면 한 장
+  const plane = D.upload(gl, {
+    pos: new Float32Array([-40,0,-40,  40,0,-40,  40,0,40,  -40,0,40]),
+    uv:  new Float32Array([0,0, 1,0, 1,1, 0,1]),
+    idx: new Uint16Array([0,1,2, 0,2,3]),
+  });
+
+  // 절차적 체크무늬 텍스처 (이미지 파일 없이 만든다)
+  const SIZE = 256;
+  const px = new Uint8Array(SIZE * SIZE * 4);
+  for (let y = 0; y < SIZE; y++) {
+    for (let x = 0; x < SIZE; x++) {
+      const i = (y * SIZE + x) * 4;
+      const check = ((x >> 4) + (y >> 4)) & 1;
+      const stripe = (x % 32 < 2 || y % 32 < 2) ? 1 : 0;
+      const v = stripe ? 245 : (check ? 210 : 60);
+      px[i] = v; px[i+1] = stripe ? 120 : v; px[i+2] = stripe ? 60 : v; px[i+3] = 255;
+    }
+  }
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, SIZE, SIZE, 0, gl.RGBA, gl.UNSIGNED_BYTE, px);
+  gl.generateMipmap(gl.TEXTURE_2D);
+
+  const MIN = {
+    NEAREST: 0x2600, LINEAR: 0x2601,
+    NEAREST_MIPMAP_NEAREST: 0x2700, LINEAR_MIPMAP_NEAREST: 0x2701,
+    NEAREST_MIPMAP_LINEAR: 0x2702, LINEAR_MIPMAP_LINEAR: 0x2703,
+  };
+  const aniso = gl.getExtension('EXT_texture_filter_anisotropic');
+  const maxAniso = aniso ? gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT) : 1;
+  const WRAP = { REPEAT: 0x2901, CLAMP_TO_EDGE: 0x812F, MIRRORED_REPEAT: 0x8370 };
+
+  const S = D.UI('#ui', [
+    { id: 'min', type: 'select', value: 'LINEAR_MIPMAP_LINEAR', label: '축소 필터 (MIN_FILTER)', options: [
+      { value: 'NEAREST', label: 'NEAREST — 가장 가까운 텍셀' },
+      { value: 'LINEAR', label: 'LINEAR — 주변 4개 섞기' },
+      { value: 'NEAREST_MIPMAP_NEAREST', label: 'NEAREST_MIPMAP_NEAREST' },
+      { value: 'LINEAR_MIPMAP_NEAREST', label: 'LINEAR_MIPMAP_NEAREST' },
+      { value: 'LINEAR_MIPMAP_LINEAR', label: 'LINEAR_MIPMAP_LINEAR — 권장' },
+    ], hint: '멀리 있는 곳(지평선 근처)에 영향을 줍니다.' },
+    { id: 'mag', type: 'select', value: 'LINEAR', label: '확대 필터 (MAG_FILTER)', options: [
+      { value: 'LINEAR', label: 'LINEAR — 부드럽게' },
+      { value: 'NEAREST', label: 'NEAREST — 또렷하게 (픽셀아트)' },
+    ], hint: '가까운 곳에 영향을 줍니다.' },
+    { id: 'wrap', type: 'select', value: 'REPEAT', label: '래핑 모드', options: [
+      { value: 'REPEAT', label: 'REPEAT — 반복' },
+      { value: 'CLAMP_TO_EDGE', label: 'CLAMP_TO_EDGE — 가장자리 늘이기' },
+      { value: 'MIRRORED_REPEAT', label: 'MIRRORED_REPEAT — 거울 반복' },
+    ]},
+    { id: 'repeat', label: 'UV 반복 횟수', min: 1, max: 40, step: 1, value: 16, fmt: v => v + '×' },
+    { id: 'height', label: '카메라 높이', min: 0.3, max: 8, step: 0.05, value: 1.2, fmt: v => v.toFixed(2),
+      hint: '낮출수록 지평선이 가까워져 축소 문제가 잘 보입니다.' },
+    { id: 'aniso', label: '비등방성 필터 배율', min: 1, max: Math.max(2,maxAniso), step: 1, value: 1, hint: aniso ? '밉맵을 켜고 비스듬한 바닥을 비교하세요. 최대 '+maxAniso+'×' : '이 기기는 확장 미지원 — 1×로 동작합니다.' },
+    { id: 'move', type: 'check', value: false, label: '카메라 이동 (깜빡임 관찰)' },
+    { id: 'fog', type: 'check', value: true, label: '먼 곳 어둡게' },
+  ]);
+
+  const vp = D.M4.create(), view = D.M4.create(), proj = D.M4.create();
+  let yaw = 0;
+
+  D.loop(function (t, dt, ms) {
+    D.fit(cv);
+    gl.viewport(0, 0, cv.width, cv.height);
+    D.clearColor(gl);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
+
+    if (S.move) yaw += dt * 0.05;
+    const eye = [Math.sin(yaw) * 2, S.height, Math.cos(yaw) * 2 + 6];
+    D.M4.lookAt(view, eye, [eye[0] - Math.sin(yaw) * 6, S.height * 0.55, eye[2] - 6], [0, 1, 0]);
+    D.M4.perspective(proj, Math.PI / 3, cv.width / cv.height, 0.05, 200);
+    D.M4.multiply(vp, proj, view);
+
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, MIN[S.min]);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, MIN[S.mag]);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, WRAP[S.wrap]);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, WRAP[S.wrap]);
+    if(aniso) gl.texParameterf(gl.TEXTURE_2D, aniso.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(S.aniso,maxAniso));
+
+    gl.useProgram(prog);
+    gl.uniformMatrix4fv(U.uVP, false, vp);
+    gl.uniform1f(U.uRepeat, S.repeat);
+    gl.uniform1f(U.uFog, S.fog ? 1 : 0);
+    gl.uniform1i(U.uTex, 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.bindVertexArray(plane.vao);
+    gl.drawElements(gl.TRIANGLES, plane.count, gl.UNSIGNED_SHORT, 0);
+    gl.bindVertexArray(null);
+
+    const levels = Math.floor(Math.log2(SIZE)) + 1;
+    D.readout(
+      '텍스처        = ' + SIZE + '×' + SIZE + ' (절차적 생성)\n' +
+      '밉맵 단계     = ' + levels + '단계 (' + SIZE + '→1)\n' +
+      '추가 메모리   = 약 +33%\n' +
+      'MIN_FILTER    = ' + S.min + '\n' +
+      'MAG_FILTER    = ' + S.mag + '\n' +
+      'WRAP          = ' + S.wrap + '\n' +
+      '프레임 시간   = ' + ms.toFixed(2) + ' ms'
+    );
+  });
+})();
+</script>
+</body>
+</html>
+

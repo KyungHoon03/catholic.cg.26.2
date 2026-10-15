@@ -7,8 +7,6 @@
 - GitHub Pages 실행 주소: [기본 버전](https://kyunghoon03.github.io/catholic.cg.26.2/week4/baseline/) · [개선 버전](https://kyunghoon03.github.io/catholic.cg.26.2/week4/improved/)
 - 수업: [4주차 카메라와 투영](https://cg.catholic.ac.kr/~mgchoi/CG/weeks/week04/)
 
-> 작성 상태: 로컬 구현, AI 보조 실행 검증과 본인이 전달한 8건의 관찰 결과를 반영했다. 기본·개선별 측정 기록 정리, 대면 설명 준비, 단계별 커밋, 업로드 및 공개 실행 확인은 아직 완료하지 않았다. 아래 자동 검증을 본인의 체험 기록으로 대신하지 않는다.
-
 ## Task 1 - 필요한 정보를 찾는 관찰 인터페이스
 
 제공된 복합 연구시설을 사용해 전체 보기, 표지 관찰, 구조 비교를 연결했다. `baseline`은 보존하고 `improved`의 학생 확장 파일을 중심으로 수정했다. 물체의 위치와 크기, 명판 내용은 바꾸지 않았다.

@@ -1,0 +1,762 @@
+{
+  "date": "2026-10-15",
+  "scope": "Local functional verification; not the required two-device Pages comparison",
+  "browser": "Microsoft Edge headless",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "sha256": "3912ecae0e541a7ea968e6ffe826d6aae4a3faea2bbfcdf3245395fb094b44a8",
+  "cases": [
+    {
+      "name": "local",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "삼각형 래스터화 + local 직접광: 다른 물체의 그림자가 없습니다.",
+      "settings": {
+        "mode": "0",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "1d2b138d37fb436bee24a4267459257449b954cd53a432476af152352f0e4201"
+    },
+    {
+      "name": "ray",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "Ray tracing: 그림자 광선과 선택한 경우 거울 반사·유리 굴절을 계산합니다.",
+      "settings": {
+        "mode": "1",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "9a2e05e4d768b81260ebc8f487a4e7e9e7591308324c36a44bb704ee93be36bd"
+    },
+    {
+      "name": "path",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "Path tracing: 여러 경로의 확산 반사와 선택한 경우 거울·유리 경로를 계산합니다.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "f89099b859d51336f9a3b1364c3e86b8a1f9dddd7a87bb4a2b8a21748d7a30f2"
+    },
+    {
+      "name": "save-candidate",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        320,
+        180
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "GPU 실행 시간 · 320×180 · Path 4표본/픽셀 · 최대 1회 반사 · 고급 효과 끔. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "320",
+        "samples": "4",
+        "bounces": "1",
+        "advanced": false
+      },
+      "hash": "0fc975003723865adb151bb8287e3e6f6ae581d15da9bc313412c1ef2a6dcd7e"
+    },
+    {
+      "name": "saved-reload",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        320,
+        180
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "Path tracing: 여러 경로의 확산 반사와 선택한 경우 거울·유리 경로를 계산합니다.",
+      "settings": {
+        "mode": "2",
+        "resolution": "320",
+        "samples": "4",
+        "bounces": "1",
+        "advanced": false
+      },
+      "hash": "0fc975003723865adb151bb8287e3e6f6ae581d15da9bc313412c1ef2a6dcd7e"
+    },
+    {
+      "name": "common-1",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "f89099b859d51336f9a3b1364c3e86b8a1f9dddd7a87bb4a2b8a21748d7a30f2"
+    },
+    {
+      "name": "common-2",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "f89099b859d51336f9a3b1364c3e86b8a1f9dddd7a87bb4a2b8a21748d7a30f2"
+    },
+    {
+      "name": "common-3",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "f89099b859d51336f9a3b1364c3e86b8a1f9dddd7a87bb4a2b8a21748d7a30f2"
+    },
+    {
+      "name": "resolution960",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        960,
+        540
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 960×540 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "960",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "9ea554687e2ecf0dc9ef96fe2ef03826deff70b08a56403bacaa33bc2cc5ead0"
+    },
+    {
+      "name": "resolution1280",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 1280×720 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "1280",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "3171e4b8187085460a3335a81dbf09a927d8fbe02816679114197a1b66446395"
+    },
+    {
+      "name": "resolution1920",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        1920,
+        1080
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 1920×1080 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "1920",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "9fb020fd0ef54ebdfb15e0e2555d664644359e9f9fd2206888ed5abb2f903b6d"
+    },
+    {
+      "name": "samples16",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 16표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "16",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "f8bb6f629ce7be008c2c5b59782bf69d22010841c74ecdfa0ce01eff02d7cd8b"
+    },
+    {
+      "name": "samples32",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 32표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "32",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "c0fbd5b0056301b776cef570b56b5e3d117c550d4d250a7d4146b5be599f5962"
+    },
+    {
+      "name": "bounces3",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 3회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "3",
+        "advanced": true
+      },
+      "hash": "e1d02d2d2d679bb6dde65c3e83446220f5ac7a11c66cd0669f92edd1b58f15a5"
+    },
+    {
+      "name": "bounces4",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 4회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "4",
+        "advanced": true
+      },
+      "hash": "c297ac91e686b2a83842d6b2c828584e39328339f61806e0eb22b7704dd3f7a7"
+    },
+    {
+      "name": "advanced-off",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 끔. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": false
+      },
+      "hash": "709033c8ce32b2e768caa35a4ed11b45c062b9144f9f2bb10f1fc277f627de49"
+    },
+    {
+      "name": "combined-load",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "profile": "자동 시작 설정: 이 기기에서 저장한 설정 · 320×180 · 4표본 · 1회 반사 · 고급 효과 끔",
+      "status": "GPU 실행 시간 · 1280×720 · Path 16표본/픽셀 · 최대 3회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "settings": {
+        "mode": "2",
+        "resolution": "1280",
+        "samples": "16",
+        "bounces": "3",
+        "advanced": true
+      },
+      "hash": "732a51a2142cf012cbf821943a2569f0d73c88cf5eee9c3ac7e043adddbe2877"
+    },
+    {
+      "name": "invalid-profile",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "삼각형 래스터화 + local 직접광: 다른 물체의 그림자가 없습니다.",
+      "settings": {
+        "mode": "0",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "1d2b138d37fb436bee24a4267459257449b954cd53a432476af152352f0e4201"
+    },
+    {
+      "name": "mobile-layout",
+      "links": [
+        {
+          "ok": true,
+          "log": ""
+        },
+        {
+          "ok": true,
+          "log": ""
+        }
+      ],
+      "error": 0,
+      "size": [
+        640,
+        360
+      ],
+      "profile": "자동 시작 설정: 데스크톱 시작 기본값 · 측정 후 저장 필요 · 640×360 · 8표본 · 2회 반사 · 고급 효과 켬",
+      "status": "삼각형 래스터화 + local 직접광: 다른 물체의 그림자가 없습니다.",
+      "settings": {
+        "mode": "0",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "hash": "fa6e9272b588a85d7677fecc1e0268d01264274585ab068cd0831d14ca6c99c7"
+    }
+  ],
+  "measurements": [
+    {
+      "name": "save-candidate",
+      "settings": {
+        "mode": "2",
+        "resolution": "320",
+        "samples": "4",
+        "bounces": "1",
+        "advanced": false
+      },
+      "status": "GPU 실행 시간 · 320×180 · Path 4표본/픽셀 · 최대 1회 반사 · 고급 효과 끔. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.11 ms1.0배",
+        "Ray tracing0.29 ms2.6배",
+        "Path tracing1.01 ms9.2배"
+      ]
+    },
+    {
+      "name": "common-1",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.71 ms4.3배",
+        "Path tracing5.46 ms32.7배"
+      ]
+    },
+    {
+      "name": "common-2",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.74 ms4.4배",
+        "Path tracing5.37 ms31.9배"
+      ]
+    },
+    {
+      "name": "common-3",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.73 ms4.3배",
+        "Path tracing5.45 ms32.2배"
+      ]
+    },
+    {
+      "name": "resolution960",
+      "settings": {
+        "mode": "2",
+        "resolution": "960",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 960×540 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.28 ms1.0배",
+        "Ray tracing0.91 ms3.3배",
+        "Path tracing10.63 ms38.2배"
+      ]
+    },
+    {
+      "name": "resolution1280",
+      "settings": {
+        "mode": "2",
+        "resolution": "1280",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 1280×720 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.43 ms1.0배",
+        "Ray tracing1.32 ms3.0배",
+        "Path tracing18.07 ms41.7배"
+      ]
+    },
+    {
+      "name": "resolution1920",
+      "settings": {
+        "mode": "2",
+        "resolution": "1920",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 1920×1080 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.96 ms1.0배",
+        "Ray tracing2.49 ms2.6배",
+        "Path tracing37.39 ms39.0배"
+      ]
+    },
+    {
+      "name": "samples16",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "16",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 16표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.77 ms4.5배",
+        "Path tracing10.42 ms61.1배"
+      ]
+    },
+    {
+      "name": "samples32",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "32",
+        "bounces": "2",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 32표본/픽셀 · 최대 2회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.67 ms3.9배",
+        "Path tracing18.11 ms106.9배"
+      ]
+    },
+    {
+      "name": "bounces3",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "3",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 3회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.70 ms4.1배",
+        "Path tracing7.59 ms45.1배"
+      ]
+    },
+    {
+      "name": "bounces4",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "4",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 4회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.17 ms1.0배",
+        "Ray tracing0.73 ms4.3배",
+        "Path tracing8.90 ms52.5배"
+      ]
+    },
+    {
+      "name": "advanced-off",
+      "settings": {
+        "mode": "2",
+        "resolution": "640",
+        "samples": "8",
+        "bounces": "2",
+        "advanced": false
+      },
+      "status": "GPU 실행 시간 · 640×360 · Path 8표본/픽셀 · 최대 2회 반사 · 고급 효과 끔. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.18 ms1.0배",
+        "Ray tracing0.72 ms4.0배",
+        "Path tracing5.34 ms29.7배"
+      ]
+    },
+    {
+      "name": "combined-load",
+      "settings": {
+        "mode": "2",
+        "resolution": "1280",
+        "samples": "16",
+        "bounces": "3",
+        "advanced": true
+      },
+      "status": "GPU 실행 시간 · 1280×720 · Path 16표본/픽셀 · 최대 3회 반사 · 고급 효과 켬. 다른 기기에서도 같은 조건을 측정하세요.",
+      "rows": [
+        "Local0.74 ms1.0배",
+        "Ray tracing1.50 ms2.0배",
+        "Path tracing46.79 ms63.2배"
+      ]
+    }
+  ],
+  "errors": [],
+  "failedResponses": [],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "renderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001638) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "vendor": "Google Inc. (AMD)",
+    "gpuTimer": true
+  }
+}

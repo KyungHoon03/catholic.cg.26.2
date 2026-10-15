@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-15",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "cases": [
+    {
+      "stage": 0,
+      "linked": [
+        true
+      ],
+      "draws": 17,
+      "errors": []
+    },
+    {
+      "stage": 1,
+      "linked": [
+        true
+      ],
+      "draws": 22,
+      "errors": []
+    }
+  ],
+  "final": {
+    "linked": [
+      true
+    ],
+    "draws": 82,
+    "errors": []
+  },
+  "errors": [],
+  "failedResponses": []
+}

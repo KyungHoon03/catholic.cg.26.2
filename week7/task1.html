@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7주차 · 기본 ray tracing 일식·월식</title>
+<link rel="stylesheet" href="demo.css">
+<style>
+.wrap{grid-template-columns:minmax(0,1fr) 17rem;height:100vh;height:100dvh}
+.stage{min-height:340px}.stage canvas{width:100%;height:100%;max-width:none;max-height:none;touch-action:none}
+.orbit-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1rem}.orbit-actions button{flex:1 1 7rem}
+@media(max-width:800px){.wrap{display:block;height:auto}.stage{height:68vh;min-height:340px}.panel{max-height:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage"><canvas id="cv" aria-label="그림자 광선으로 일식과 월식을 비교하는 기본 ray tracing"></canvas></div>
+  <aside class="panel">
+    <h1>기본 ray tracing · 일식과 월식</h1>
+    <p class="sub">위성을 공전시켜 일식과 월식을 비교하세요. 그림자 광선을 끄고 켜면 가림 효과를 확인할 수 있습니다. 드래그: 카메라 회전 · 휠: 확대</p>
+    <div id="ui"></div>
+    <div class="orbit-actions"><button id="solar" type="button">일식 보기</button><button id="lunar" type="button">월식 보기</button><button id="play" type="button">공전 재생</button></div>
+    <button id="reset" type="button">시점 초기화</button>
+    <p class="note">일식(0°): 별—위성—행성. 월식(180°): 별—행성—위성. 월식에서도 위성의 윤곽이 보이도록 약한 주변광을 남겼습니다. 실제 천체의 크기·거리 비율과 대기 굴절은 재현하지 않습니다.</p>
+    <p id="status" role="status"></p>
+  </aside>
+</div>
+<script src="demo.js"></script>
+<script src="task1.js"></script>
+</body>
+</html>
